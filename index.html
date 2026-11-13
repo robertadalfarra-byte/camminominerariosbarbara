@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cammino Minerario di Santa Barbara — 25 May–3 June 2027</title>
+<meta name="description" content="Trip planner for the first six stages of the Cammino Minerario di Santa Barbara, Sardinia, 25 May–3 June 2027.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--ink:#17231f;--muted:#68756f;--sand:#f5efe3;--cream:#fbfaf6;--green:#244d3b;--gold:#c9933e;--sea:#286b73;--line:#dfe5df;--white:#fff;--shadow:0 14px 40px rgba(23,35,31,.08)}
+*{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif;line-height:1.55}
+a{color:var(--green);font-weight:600;text-decoration:none} a:hover{text-decoration:underline}
+.hero{min-height:520px;padding:72px 7vw 56px;background:linear-gradient(135deg,#17372b 0%,#286b73 58%,#c9933e 150%);color:#fff;display:flex;align-items:end}
+.hero-inner{max-width:1100px;margin:auto;width:100%}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;font-weight:700;opacity:.82}
+h1,h2,h3{font-family:"Playfair Display",serif;line-height:1.08} h1{font-size:clamp(2.8rem,6vw,5.5rem);max-width:900px;margin:18px 0}.hero p{font-size:1.15rem;max-width:760px;opacity:.92}
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:25px}.pill{padding:8px 13px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.09)}
+nav{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.nav{max-width:1100px;margin:auto;padding:10px 5vw;display:flex;gap:18px;overflow:auto;white-space:nowrap}.nav a{font-size:.9rem;color:var(--ink)}
+main{max-width:1100px;margin:auto;padding:54px 5vw 90px}.intro{display:grid;grid-template-columns:1.4fr .9fr;gap:28px;align-items:start}
+.card{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi{background:var(--sand);border-radius:16px;padding:18px}.kpi strong{display:block;font-size:1.5rem;color:var(--green)}
+section{margin-top:70px} section>h2{font-size:2.2rem;margin-bottom:10px}.sub{color:var(--muted);max-width:760px}
+.timeline{display:grid;gap:16px;margin-top:24px}.day{display:grid;grid-template-columns:120px 1fr;gap:18px}.datebox{background:var(--green);color:white;border-radius:16px;padding:14px;text-align:center;height:max-content}.datebox b{display:block;font-size:1.3rem}.stage h3{margin:0 0 7px;font-size:1.35rem}.tags{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.tag{font-size:.78rem;padding:5px 9px;background:#eef3ef;border-radius:999px;color:var(--green);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.stage-card{padding:0;overflow:hidden}.stage-top{padding:22px;background:linear-gradient(120deg,#f0e7d6,#e6f0ec)}.stage-body{padding:22px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:14px 0}.stat{background:#f6f7f4;padding:9px;border-radius:10px;font-size:.78rem}.stat b{display:block;font-size:1rem}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden}.table th,.table td{text-align:left;padding:14px;border-bottom:1px solid var(--line);vertical-align:top}.table th{background:var(--sand);font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}.table tr:last-child td{border-bottom:0}
+.price{font-weight:800;color:var(--green)}.warning{border-left:5px solid var(--gold);background:#fff7e9;padding:16px 18px;border-radius:12px;margin:16px 0}.ok{border-left:5px solid var(--sea);background:#edf7f6;padding:16px 18px;border-radius:12px;margin:16px 0}
+#map{height:470px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.weather-controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.weather-controls select,.weather-controls button{padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit}.weather-controls button{background:var(--green);color:white;cursor:pointer}.weather-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.wx{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;text-align:center}.wx .icon{font-size:1.8rem}.wx small{display:block;color:var(--muted)}
+.food{display:grid;grid-template-columns:1fr 1fr;gap:18px}.food .card h3{margin-top:0}
+.checklist{columns:2;column-gap:40px}.checklist li{break-inside:avoid;margin:7px 0}
+footer{background:#17372b;color:#dce7e1;padding:42px 7vw}.foot{max-width:1100px;margin:auto}.foot a{color:#fff}
+.small{font-size:.86rem;color:var(--muted)}.source-list{font-size:.88rem}.source-list li{margin:7px 0}
+@media(max-width:800px){.intro,.grid,.food{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.day{grid-template-columns:82px 1fr}.weather-grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.checklist{columns:1}}
+</style>
+</head>
+<body>
+<header class="hero">
+ <div class="hero-inner">
+  <div class="eyebrow">Sardinia · Sulcis-Iglesiente · 25 May–3 June 2027</div>
+  <h1>Cammino Minerario di Santa Barbara</h1>
+  <p>A practical 10-day trip planner for the first six walking stages, with accommodation alternatives, pilgrim/convention pricing, food stops, transfers, weather and a day-by-day operating plan.</p>
+  <div class="pills"><span class="pill">4 travellers assumed</span><span class="pill">CAG arrival & departure</span><span class="pill">6 stages · ~100 km</span><span class="pill">9 nights</span></div>
+ </div>
+</header>
+
+<nav><div class="nav">
+<a href="#overview">Overview</a><a href="#plan">Day plan</a><a href="#stages">Stages</a><a href="#stays">Where to sleep</a><a href="#food">Food</a><a href="#weather">Weather</a><a href="#map-section">Map</a><a href="#logistics">Logistics</a><a href="#kit">Kit</a>
+</div></nav>
+
+<main>
+<section id="overview" style="margin-top:0">
+ <div class="intro">
+  <div>
+   <h2>Trip concept</h2>
+   <p>This itinerary uses the <strong>official walking route, stages 1–6</strong>: Iglesias → Nebida → Masua → Buggerru → Portixeddu → Piscinas → Montevecchio. The official CMSB site currently describes the whole route as 500 km in 30 stages.</p>
+   <div class="warning"><strong>Important:</strong> the 2027 trip is far enough away that accommodation availability and prices cannot be confirmed yet. Treat the prices below as the latest published/indicative figures, not a booking confirmation. Re-check with each property before paying.</div>
+  </div>
+  <div class="card">
+   <h3>Planning assumptions</h3>
+   <ul>
+    <li>4 people, willing to use dorm/shared rooms or two twin/double rooms.</li>
+    <li>Walking starts 26 May and finishes 31 May.</li>
+    <li>25 May: airport → Iglesias and overnight.</li>
+    <li>1 June: recovery/transfer day.</li>
+    <li>2 June: Cagliari buffer night.</li>
+    <li>3 June: Cagliari → CAG and flight home.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="kpis" style="margin-top:22px">
+  <div class="kpi"><strong>~100.2 km</strong>Official stage distances combined</div>
+  <div class="kpi"><strong>6 days</strong>Walking · 26–31 May</div>
+  <div class="kpi"><strong>~3,517 m</strong>Positive ascent combined</div>
+  <div class="kpi"><strong>4–7 h</strong>Typical official walking time/day</div>
+ </div>
+</section>
+
+<section id="plan">
+ <h2>Day-by-day operating plan</h2>
+ <p class="sub">The extra days are intentional: the route contains two demanding stages and a remote overnight around Piscinas/Montevecchio. The buffer makes the trip less fragile.</p>
+ <div class="timeline">
+  <div class="day"><div class="datebox">25 MAY<b>Tue</b></div><div class="card stage"><h3>CAG → Iglesias · arrival & setup</h3><p>Private transfer is the cleanest option for 4 people with luggage. Iglesias is about 40 minutes by road from Cagliari-Elmas; public transport is possible but involves connections.</p><div class="tags"><span class="tag">Sleep: Iglesias</span><span class="tag">Collect credential</span><span class="tag">Buy trail snacks</span></div></div></div>
+  <div class="day"><div class="datebox">26 MAY<b>Wed</b></div><div class="card stage"><h3>Stage 1 · Iglesias → Nebida</h3><p>20.4 km · 7 h · Medium · +660 / −704 m. Long opening day; start early.</p><div class="tags"><span class="tag">Sleep: Nebida</span><span class="tag">Pack lunch recommended</span></div></div></div>
+  <div class="day"><div class="datebox">27 MAY<b>Thu</b></div><div class="card stage"><h3>Stage 2 · Nebida → Masua</h3><p>12.6 km · 4 h 30 · Medium · +460 / −498 m. Shorter day leaves time for Porto Flavia.</p><div class="tags"><span class="tag">Sleep: Masua</span><span class="tag">Porto Flavia</span></div></div></div>
+  <div class="day"><div class="datebox">28 MAY<b>Fri</b></div><div class="card stage"><h3>Stage 3 · Masua → Buggerru</h3><p>19.4 km · 7 h · Demanding · +721 / −816 m. Carry at least 3 L water/person and offline maps.</p><div class="tags"><span class="tag">Sleep: Buggerru</span><span class="tag">Hardest stage</span></div></div></div>
+  <div class="day"><div class="datebox">29 MAY<b>Sat</b></div><div class="card stage"><h3>Stage 4 · Buggerru → Portixeddu</h3><p>12.4 km · 4 h 30 · Medium · +604 / −600 m. The current route is longer than the historic 9.5 km version.</p><div class="tags"><span class="tag">Sleep: Portixeddu</span><span class="tag">Easy afternoon</span></div></div></div>
+  <div class="day"><div class="datebox">30 MAY<b>Sun</b></div><div class="card stage"><h3>Stage 5 · Portixeddu → Piscinas</h3><p>16.2 km · 5 h 30 · Demanding · +362 / −369 m. Sand/rock near the end makes this deceptively tiring.</p><div class="tags"><span class="tag">Sleep: Piscinas area</span><span class="tag">Transfer likely</span></div></div></div>
+  <div class="day"><div class="datebox">31 MAY<b>Mon</b></div><div class="card stage"><h3>Stage 6 · Piscinas → Montevecchio</h3><p>19.2 km · 6 h 30 · Medium · +710 / −345 m. Mainly uphill; finish at the historic mining village.</p><div class="tags"><span class="tag">Sleep: Montevecchio/Guspini</span><span class="tag">Transfer recommended</span></div></div></div>
+  <div class="day"><div class="datebox">1 JUN<b>Tue</b></div><div class="card stage"><h3>Recovery / Costa Verde</h3><p>Recommended: sleep in Guspini after Stage 6, recover, laundry, relaxed meal and optional visit to Montevecchio or the coast.</p><div class="tags"><span class="tag">No hiking planned</span><span class="tag">Flexible</span></div></div></div>
+  <div class="day"><div class="datebox">2 JUN<b>Wed</b></div><div class="card stage"><h3>Guspini → Cagliari</h3><p>Use this as the safety buffer before the flight. Optional Cagliari evening.</p><div class="tags"><span class="tag">Sleep: Cagliari</span><span class="tag">Flight protection</span></div></div></div>
+  <div class="day"><div class="datebox">3 JUN<b>Thu</b></div><div class="card stage"><h3>Cagliari → CAG · departure</h3><p>Allow generous airport time; return rental car/transfer as applicable.</p></div></div>
+ </div>
+</section>
+
+<section id="stages">
+ <h2>The six stages</h2>
+ <div class="grid">
+  <article class="card stage-card"><div class="stage-top"><h3>01 · Iglesias → Nebida</h3><span class="tag">Medium</span></div><div class="stage-body"><div class="stats"><div class="stat"><b>20.4 km</b>distance</div><div class="stat"><b>7 h</b>official time</div><div class="stat"><b>+660 m</b>ascent</div><div class="stat"><b>−704 m</b>descent</div></div><p>Two early climbs make this more demanding than the “medium” label suggests. The route passes the Buon Cammino sanctuary and mining landscapes.</p><a href="https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-01-da-iglesias-nebida/">Official stage + GPX →</a></div></article>
+  <article class="card stage-card"><div class="stage-top"><h3>02 · Nebida → Masua</h3><span class="tag">Medium</span></div><div class="stage-body"><div class="stats"><div class="stat"><b>12.6 km</b>distance</div><div class="stat"><b>4h30</b>official time</div><div class="stat"><b>+460 m</b>ascent</div><div class="stat"><b>−498 m</b>descent</div></div><p>Shorter stage with time for Laveria Lamarmora and Porto Flavia. Masua has very limited food shopping.</p><a href="https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-02-da-nebida-masua/">Official stage + GPX →</a></div></article>
+  <article class="card stage-card"><div class="stage-top"><h3>03 · Masua → Buggerru</h3><span class="tag">Demanding</span></div><div class="stage-body"><div class="stats"><div class="stat"><b>19.4 km</b>distance</div><div class="stat"><b>7 h</b>official time</div><div class="stat"><b>+721 m</b>ascent</div><div class="stat"><b>−816 m</b>descent</div></div><p>One of the hardest stages. CMSB advises at least 3 L of water per person and offline maps because reception can disappear.</p><a href="https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-03-da-masua-buggerru/">Official stage + GPX →</a></div></article>
+  <article class="card stage-card"><div class="stage-top"><h3>04 · Buggerru → Portixeddu</h3><span class="tag">Medium</span></div><div class="stage-body"><div class="stats"><div class="stat"><b>12.4 km</b>distance</div><div class="stat"><b>4h30</b>official time</div><div class="stat"><b>+604 m</b>ascent</div><div class="stat"><b>−600 m</b>descent</div></div><p>The route was revised in 2024 for safety, increasing the stage from 9.5 to about 12.5 km. Portixeddu food options are seasonal.</p><a href="https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-04-da-buggerru-portixeddu/">Official stage + GPX →</a></div></article>
+  <article class="card stage-card"><div class="stage-top"><h3>05 · Portixeddu → Piscinas</h3><span class="tag">Demanding</span></div><div class="stage-body"><div class="stats"><div class="stat"><b>16.2 km</b>distance</div><div class="stat"><b>5h30</b>official time</div><div class="stat"><b>+362 m</b>ascent</div><div class="stat"><b>−369 m</b>descent</div></div><p>The last 6 km include sandy/rocky terrain. In strong wind or rough sea, use the internal variant toward Pitzinurri.</p><a href="https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-05-da-portixeddu-piscinas/">Official stage + GPX →</a></div></article>
+  <article class="card stage-card"><div class="stage-top"><h3>06 · Piscinas → Montevecchio</h3><span class="tag">Medium</span></div><div class="stage-body"><div class="stats"><div class="stat"><b>19.2 km</b>distance</div><div class="stat"><b>6h30</b>official time</div><div class="stat"><b>+710 m</b>ascent</div><div class="stat"><b>−345 m</b>descent</div></div><p>Predominantly uphill from the dunes to Ingurtosu and Montevecchio, through Mediterranean woodland and mining heritage.</p><a href="https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-06-da-piscinas-montevecchio/">Official stage + GPX →</a></div></article>
+ </div>
+</section>
+
+<section id="stays">
+ <h2>Where to sleep · 3–4 people</h2>
+ <p class="sub">“Convention” means the CMSB pilgrim network. A credential is required for pilgrim rates. For 2027, contact the property before booking to confirm that the same rate and room configuration will apply.</p>
+ <div class="ok"><strong>Published CMSB pricing:</strong> Posadas are currently listed at <strong>€25/person/night with basic breakfast</strong>. CMSB's Mìnera Card FAQ states <strong>€28/person/night</strong> for participating accommodation, generally for one night per guest. Individual property pages can differ, so use the property-specific figure where available.</div>
+ <div class="table-wrap">
+ <table class="table">
+ <thead><tr><th>Night / area</th><th>Best pilgrim option</th><th>Convention / pilgrim price</th><th>Non-convention alternative</th><th>Fit for 3–4</th></tr></thead>
+ <tbody>
+  <tr><td><strong>25 May<br>Iglesias</strong></td><td>Convento di San Francesco / other CMSB network properties</td><td>Some properties are conventioned; ask CMSB/property for 2027 group quote. The CMSB Iglesias list includes multiple conventioned B&Bs and the convent at donation.</td><td>Hotel Artù or B&B Mare Monti Miniere; public rates vary by date.</td><td>Look for 2 twin rooms or a 4-bed apartment.</td></tr>
+  <tr><td><strong>26 May<br>Nebida</strong></td><td><a href="https://www.camminominerariodisantabarbara.org/it/resource/accomodation/posada-di-nebida/">Posada di Nebida</a></td><td><span class="price">€25 pp incl. breakfast</span>; 11 shared beds; credential; reservation required.</td><td>Corallo / Oasi Blu / B&B La Pigna / La Casa del Glicine. Public 2027 rate: request quote.</td><td>Excellent for a group if shared rooms are acceptable.</td></tr>
+  <tr><td><strong>27 May<br>Masua</strong></td><td><a href="https://card.cmsb.it/it/dove-dormire/ostello-del-viandante">Ostello del Viandante</a></td><td><span class="price">€25 pp</span>; 20 beds; all year by reservation at least 3 days ahead.</td><td><a href="https://www.camminominerariodisantabarbara.org/it/resource/accomodation/casa-masua-convenzionato/">Casa Masua</a> is conventioned too; non-network private alternatives are limited.</td><td>Best value/availability match for 4.</td></tr>
+  <tr><td><strong>28 May<br>Buggerru</strong></td><td><a href="https://card.cmsb.it/it/posadas/posada-eco-ostello-di-buggerru">Posada Eco-Ostello di Buggerru</a></td><td><span class="price">€25 pp incl. breakfast</span>; 24 shared beds; no AC; credential; check-in 15:00–18:00.</td><td>B&B Bella Posada: <span class="price">€28 pp</span> with credential/Mìnera Card; 8 beds. Hotel 904 / Hotel La Rosa dei Venti for private-room alternatives.</td><td>Very good for 4 in shared accommodation.</td></tr>
+  <tr><td><strong>29 May<br>Portixeddu</strong></td><td><a href="https://card.cmsb.it/it/dove-dormire/posada-di-portixeddu">Posada di Portixeddu</a></td><td><span class="price">€25 pp incl. breakfast</span>; 24 shared beds; double rooms; private bathroom; AC; credential.</td><td>Hotel Sardus Pater: private rooms, breakfast, restaurant; public rates are typically much higher and vary by date. A 4-person room exists.</td><td>Posada is the clear value choice.</td></tr>
+  <tr><td><strong>30 May<br>Piscinas area</strong></td><td><a href="https://www.camminominerariodisantabarbara.org/it/resource/accomodation/agriturismo-la-quercia/">Agriturismo La Quercia</a></td><td><span class="price">€28 pp</span> for credentialed pilgrims; convention active March–June and Sept–Dec; transfer from Piscinas/Pitzinurri.</td><td><a href="https://www.campingsciopadroxiu.com/it/tariffe/">Camping Sciopadroxiu</a>: 2026 room tariff €80/night (Oct–May) for a double room incl. breakfast; verify 2027 and room capacity. Hotel Le Dune is a luxury option but much more expensive and seasonal.</td><td>La Quercia is the practical group solution because it includes transfer.</td></tr>
+  <tr><td><strong>31 May<br>Montevecchio / Guspini</strong></td><td>Use a pre-arranged transfer to Guspini after Stage 6 and sleep at a CMSB-network B&B such as B&B L'Agrifoglio di Emy, or another Guspini property.</td><td>CMSB's Stage 7 network includes conventioned Guspini properties. Ask for the €28 pilgrim rate and group configuration.</td><td>B&B Da Andreina is well placed for walkers arriving from Montevecchio; current listings show double and triple rooms. Public rate varies.</td><td>Best operational choice is Guspini rather than relying on limited Montevecchio lodging.</td></tr>
+ </tbody>
+ </table>
+ </div>
+ <p class="small">Note: The famous “Leg’s Go 10” €10 voucher promotion shown on CMSB's site was limited to use through 15 Dec 2025, so it should <strong>not</strong> be budgeted for this 2027 trip unless a new promotion is announced.</p>
+</section>
+
+<section id="food">
+ <h2>Lunch & dinner strategy</h2>
+ <div class="food">
+  <div class="card"><h3>25 May · Iglesias</h3><ul><li><strong>Dinner:</strong> Biki Biki Sisters, Bottega Red or Trattoria S'Arrastu — CMSB currently marks these with the pilgrim menu.</li><li><strong>Buy for trail:</strong> water, fruit, panini, nuts, electrolyte sachets and breakfast top-ups.</li></ul></div>
+  <div class="card"><h3>26 May · Stage 1</h3><ul><li><strong>Lunch:</strong> carry a packed lunch; the 20.4 km day is long.</li><li><strong>Dinner:</strong> Su Mustazzeddu / La Piazzetta Bistrot in Nebida. Restaurant Oasi is another practical current option.</li></ul></div>
+  <div class="card"><h3>27 May · Stage 2</h3><ul><li><strong>Lunch:</strong> Porto Flavia restaurant is the principal official trail-side option; Bar La Piazzetta is useful before/after leaving Nebida.</li><li><strong>Dinner:</strong> Masua has very limited food supply; arrange dinner with the accommodation/Porto Flavia and do not rely on a supermarket.</li></ul></div>
+  <div class="card"><h3>28 May · Stage 3</h3><ul><li><strong>Lunch/stop:</strong> Oasi Beach at Cala Domestica provides food and can also arrange transfers/activities; Warung Beach Club is another trail-area option.</li><li><strong>Dinner:</strong> Buggerru — Bistrot Ristorante Galleria 13, La Baia da Tore, AQUA or another open local restaurant. Reserve in advance for a group.</li></ul></div>
+  <div class="card"><h3>29 May · Stage 4</h3><ul><li><strong>Lunch:</strong> start with breakfast/packed food from Buggerru. Portixeddu's restaurants and beach kiosks are seasonal; May availability must be checked.</li><li><strong>Dinner:</strong> Bar Ristorante L'Ancora or accommodation dinner/transfer. Keep a backup packed meal.</li></ul></div>
+  <div class="card"><h3>30 May · Stage 5</h3><ul><li><strong>Lunch:</strong> pack food in Portixeddu. This is a remote stage and the final sandy/rocky section is tiring.</li><li><strong>Dinner:</strong> if staying at La Quercia, arrange dinner there or by transfer; if staying at a hotel, use its restaurant. Do not assume restaurants at Piscinas are open in May.</li></ul></div>
+  <div class="card"><h3>31 May · Stage 6</h3><ul><li><strong>Lunch:</strong> pack a substantial lunch and 3 L water/person minimum for the remote section.</li><li><strong>Dinner:</strong> easiest in Guspini after a pre-arranged transfer. If staying at Montevecchio, pre-arrange dinner because evening choices are limited.</li></ul></div>
+  <div class="card"><h3>1–3 June · recovery / Cagliari</h3><ul><li>Use the buffer for a relaxed Sardinian dinner, shopping and laundry.</li><li>Keep 2 June in Cagliari to protect the 3 June flight.</li></ul></div>
+ </div>
+ <div class="ok"><strong>Pilgrim menu:</strong> CMSB's Mìnera Card FAQ currently describes a €18 “Menu del Pellegrino” consisting of first or second course + side + drink + cover charge, where offered. Confirm the 2027 menu with the restaurant.</div>
+</section>
+
+<section id="weather">
+ <h2>Daily weather check</h2>
+ <p class="sub">The trip is in 2027, so a real forecast cannot be produced now. This live widget uses Open-Meteo to retrieve the current forecast when the trip falls within the forecast horizon. Until then, use it as a one-click daily check close to departure.</p>
+ <div class="card">
+  <div class="weather-controls">
+   <select id="wxPlace">
+    <option value="39.3115,8.5360">Iglesias</option>
+    <option value="39.1046,8.5336">Nebida</option>
+    <option value="39.0950,8.6280">Masua</option>
+    <option value="39.3989872,8.4002715">Buggerru</option>
+    <option value="39.4250,8.5860">Portixeddu</option>
+    <option value="39.5388588,8.4475562">Piscinas</option>
+    <option value="39.5630,8.7200">Montevecchio</option>
+   </select>
+   <button onclick="loadWeather()">Refresh forecast</button>
+  </div>
+  <div id="weatherStatus" class="small">Loading…</div>
+  <div id="weatherGrid" class="weather-grid" style="margin-top:12px"></div>
+ </div>
+ <p class="small">Weather API: Open-Meteo. Forecast values are automatically updated by the service; always check the official trail alerts as well, especially for wind, storms and sea conditions.</p>
+</section>
+
+<section id="map-section">
+ <h2>Route map</h2>
+ <p class="sub">The map below has been corrected against the official CMSB stage sequence and independently checked locality coordinates. It shows the <strong>seven stage endpoints</strong> only; the dashed line is an overview connection and is <strong>not</strong> the exact hiking track. For navigation, use the official CMSB GPX files linked for every stage.</p>
+ <div id="map"></div>
+</section>
+
+<section id="logistics">
+ <h2>Transfers & logistics</h2>
+ <div class="grid">
+  <div class="card"><h3>CAG → Iglesias</h3><p><strong>Best for 4:</strong> pre-book a private minivan/driver, especially with hiking luggage. Iglesias Tourism states that Iglesias is about 40 minutes by road from Cagliari-Elmas. Public transport is possible via the airport rail station and onward connections.</p><p><a href="https://www.iglesiasturismo.it/en/plan-your-trip/how-to-get-there/">Iglesias transport information →</a></p></div>
+  <div class="card"><h3>Local trail transfers</h3><p>CMSB lists local NCC/minivan operators and transfer services. Piscinas is particularly important: the official Stage 5 page says there are no public transport services at Piscinas, so a private transfer is needed for onward movement.</p><p><a href="https://www.camminominerariodisantabarbara.org/trasporti-2/">CMSB transport directory →</a></p></div>
+  <div class="card"><h3>Stage 6 finish</h3><p>Montevecchio is not the easiest place for a group dinner/overnight. Pre-book a driver to Guspini and use the extra 1 June as recovery. This is more robust than depending on a single small property in the mining village.</p></div>
+  <div class="card"><h3>Public buses</h3><p>ARST line 808 links Iglesias, Nebida and Masua. Timetables change by day type, so use the official live timetable rather than copying a 2026 schedule into the 2027 trip.</p><p><a href="https://app.arstspa.it/quadri/808.html">ARST Line 808 →</a></p></div>
+ </div>
+</section>
+
+<section id="kit">
+ <h2>Cammino-ready packing list</h2>
+ <div class="card">
+  <ul class="checklist">
+   <li>Trail shoes with reliable grip; sandals optional for evenings.</li>
+   <li>Light rain shell + wind layer.</li>
+   <li>Sun hat, sunglasses and SPF.</li>
+   <li>2–3 L water capacity per person; Stage 3 officially advises at least 3 L.</li>
+   <li>Electrolytes and high-calorie trail snacks.</li>
+   <li>Offline CMSB app/maps + downloaded GPX tracks.</li>
+   <li>Power bank; reception can disappear on Stage 3.</li>
+   <li>Light headlamp.</li>
+   <li>Microfibre towel / sleeping-bag liner for Posadas.</li>
+   <li>Small first-aid kit + blister treatment.</li>
+   <li>Swimwear and light beach layer.</li>
+   <li>Reusable food bag for packed lunches.</li>
+   <li>Credential; necessary for pilgrim accommodation rates.</li>
+   <li>Small amount of cash as a backup.</li>
+  </ul>
+ </div>
+</section>
+
+<section id="sources">
+ <h2>Research & source desk</h2>
+ <ul class="source-list">
+  <li><a href="https://www.camminominerariodisantabarbara.org/itinerari-il-cammino/">CMSB — official walking itineraries</a></li>
+  <li><a href="https://www.camminominerariodisantabarbara.org/faq-2/">CMSB — FAQ, credential and accommodation rules</a></li>
+  <li><a href="https://www.camminominerariodisantabarbara.org/ospitalita-3/">CMSB — accommodation and food network</a></li>
+  <li><a href="https://www.camminominerariodisantabarbara.org/timbri-2/">CMSB — stage-by-stage services/stampers</a></li>
+  <li><a href="https://www.camminominerariodisantabarbara.org/trasporti-2/">CMSB — transport and transfer directory</a></li>
+  <li><a href="https://www.camminominerariodisantabarbara.org/2024/08/28/variazione-percorso-buggerru-portixeddu-tappa-4/">CMSB — Stage 4 route change notice</a></li>
+  <li><a href="https://www.camminominerariodisantabarbara.org/it/resource/accomodation/agriturismo-la-quercia/">CMSB — Agriturismo La Quercia</a></li>
+  <li><a href="https://www.camminominerariodisantabarbara.org/it/resource/accomodation/posada-di-nebida/">CMSB — Posada di Nebida</a></li>
+  <li><a href="https://www.camminominerariodisantabarbara.org/it/resource/accomodation/casa-masua-convenzionato/">CMSB — Casa Masua</a></li>
+  <li><a href="https://www.campingsciopadroxiu.com/it/tariffe/">Camping Sciopadroxiu — published 2026 tariff</a></li>
+  <li><a href="https://www.ledunepiscinas.com/contatti-ledune/">Hotel Le Dune Piscinas — official contact/access information</a></li>
+ </ul>
+</section>
+</main>
+
+<footer><div class="foot">
+ <h2>Cammino Minerario di Santa Barbara</h2>
+ <p>Planning version: September 2026 · Travel dates: 25 May–3 June 2027 · First six walking stages.</p>
+ <p class="small" style="color:#b9cbc3">This is a planning website, not a booking confirmation. Prices, opening periods, timetables and trail conditions can change. Reconfirm every accommodation, restaurant and transfer before the trip.</p>
+</div></footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Verified endpoint coordinates for the six official stages.
+// These are endpoint/locality markers, not a replacement for the official GPX track.
+
+const points=[
+ ["Iglesias",39.3115,8.5360,"Start · Stage 1"],
+ ["Nebida",39.3119,8.4373,"End Stage 1 / Start Stage 2"],
+ ["Masua",39.0950,8.6280,"End Stage 2 / Start Stage 3"],
+ ["Buggerru",39.3989872,8.4002715,"End Stage 3 / Start Stage 4"],
+ ["Portixeddu",39.4422,8.4103,"End Stage 4 / Start Stage 5"],
+ ["Piscinas",39.5388588,8.4475562,"End Stage 5 / Start Stage 6"],
+ ["Montevecchio",39.5569,8.5704,"End Stage 6"]
+];
+
+const key = '0thxnSwOFVJ08TBWiMSh';
+
+const map = L.map('map').setView([0, 0], 2);
+L.tileLayer(`https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${key}`,{
+  tileSize: 512,
+  zoomOffset: -1,
+  minZoom: 1,
+  attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+  crossOrigin: true
+}).addTo(map);
+
+const stageLinks=[
+ ["Stage 1 · Iglesias → Nebida",points[0],points[1],"https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-01-da-iglesias-nebida/"],
+ ["Stage 2 · Nebida → Masua",points[1],points[2],"https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-02-da-nebida-masua/"],
+ ["Stage 3 · Masua → Buggerru",points[2],points[3],"https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-03-da-masua-buggerru/"],
+ ["Stage 4 · Buggerru → Portixeddu",points[3],points[4],"https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-04-da-buggerru-portixeddu/"],
+ ["Stage 5 · Portixeddu → Piscinas",points[4],points[5],"https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-05-da-portixeddu-piscinas/"],
+ ["Stage 6 · Piscinas → Montevecchio",points[5],points[6],"https://www.camminominerariodisantabarbara.org/it/resource/statictrack/tappa-06-da-piscinas-montevecchio/"]
+];
+
+points.forEach((p,i)=>{
+  const marker=L.marker([p[1],p[2]]).addTo(map);
+  marker.bindPopup('<b>'+p[0]+'</b><br>'+p[3]);
+});
+
+// Connect only the verified stage endpoints with a subtle dashed line.
+// The official CMSB GPX tracks remain the navigation source for the actual walking path.
+const line=points.map(p=>[p[1],p[2]]);
+L.polyline(line,{weight:3,opacity:.55,dashArray:'7 9'}).addTo(map);
+
+const bounds=L.latLngBounds(points.map(p=>[p[1],p[2]]));
+map.fitBounds(bounds,{padding:[25,25]});
+
+function wxIcon(code){
+ if(code===0)return"☀️"; if([1,2].includes(code))return"🌤️"; if(code===3)return"☁️";
+ if([45,48].includes(code))return"🌫️"; if([51,53,55,56,57].includes(code))return"🌦️";
+ if([61,63,65,66,67,80,81,82].includes(code))return"🌧️"; if([71,73,75,77,85,86].includes(code))return"🌨️";
+ if([95,96,99].includes(code))return"⛈️"; return"•";
+}
+async function loadWeather(){
+ const [lat,lon]=document.getElementById('wxPlace').value.split(',');
+ const status=document.getElementById('weatherStatus'); const grid=document.getElementById('weatherGrid');
+ status.textContent="Loading current forecast…"; grid.innerHTML="";
+ try{
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,windspeed_10m_max&forecast_days=7&timezone=Europe%2FRome`;
+  const r=await fetch(url); const d=await r.json();
+  d.daily.time.forEach((dt,i)=>{
+   const x=document.createElement('div'); x.className='wx';
+   const day=new Date(dt+"T12:00:00").toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+   x.innerHTML=`<strong>${day}</strong><div class="icon">${wxIcon(d.daily.weather_code[i])}</div><b>${Math.round(d.daily.temperature_2m_max[i])}° / ${Math.round(d.daily.temperature_2m_min[i])}°</b><small>Rain ${d.daily.precipitation_probability_max[i]}% · Wind ${Math.round(d.daily.windspeed_10m_max[i])} km/h</small>`;
+   grid.appendChild(x);
+  });
+  status.textContent="Live 7-day forecast from Open-Meteo. For May/June 2027, the widget will become useful only when those dates enter the forecast horizon.";
+ }catch(e){status.textContent="Forecast unavailable right now. Check Open-Meteo or a local weather service manually.";}
+}
+loadWeather();
+</script>
+</body>
+</html>
